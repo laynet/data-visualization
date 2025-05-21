@@ -1,0 +1,5 @@
+https://github.com/andrewdoak/aic-api-react/blob/main/src/App.jsx
+
+https://github.com/eli099/Art-Institute-of-Chicago/blob/main/src/components/artworks/ArtIndex.js
+
+https://formversuscontent.com/posts/api-axios-react-art-institute-chicago
