@@ -14,8 +14,9 @@ const Artist = ({artist, handleArtistClick}) => {
     const items = gsap.utils.toArray(itemsRef.current);
     gsap.to(items, {
         x: 500,
-        duration: 1,
+        duration: 10,
         rotation: 360,
+        ease: "bounce.out"
       });
 }, {revertOnUpdate: true} )
     console.log(artist)

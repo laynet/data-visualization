@@ -13,8 +13,9 @@ const Type = ({type, handleTypeClick}) => {
     const items = gsap.utils.toArray(itemsRef.current);
     gsap.to(items, {
         x: 500,
-        duration: 1,
+        duration: 5,
         rotation: 360,
+        ease: "back.out"
       });
 }, {revertOnUpdate: true} )
 
