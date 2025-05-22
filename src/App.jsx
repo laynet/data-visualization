@@ -7,8 +7,10 @@ import './App.css'
 import axios from 'axios'
 
 import PlacesDropdown from './components/PlacesDropdown'
-import Boxes from './components/Boxes';
+import Titles from './components/Titles';
 import WorkingAnimationOnClick from './components/WorkingAnimationOnClick';
+import Category from './components/Category';
+import Type from './components/Type';
 
 gsap.registerPlugin(useGSAP);
 
@@ -19,8 +21,9 @@ function App() {
   const [titles, setTitles] = useState([])
   const [currentPlace, setCurrentPlace] = useState('')
   const [displayTitles, setDisplayTitles] = useState(false)
-  const [displayArtist, setDisplayArtist] = useState(false)
-  const [artist, setArtist] = useState('')
+  const [displayArtistAndCategory, setDisplayArtistAndCategory] = useState(false)
+  const [artistAndCategory, setArtistAndCategory] = useState({})
+  const [category, setCategory] = useState({})
 //initial api call and process data
   useEffect(() => {
     const getArtList = async () => {
@@ -85,24 +88,46 @@ function App() {
     setDisplayTitles(true)   
 }
 
-const handleBoxClick = (title) => {
+const handleTitleClick = (title) => {
 
-    const currArtist = []
+    const currCategory = []
     for(let i = 0; i < artList.length; i++){
-        let whatever = artList[i]
-        if(whatever.title === title){
-            currArtist.push(whatever.artist)
+        let curr = artList[i]
+        if(curr.title === title){
+            currCategory.currArtist = curr.artist 
+            currCategory.category = curr.category
         }
     }
-    setArtist(currArtist[0])
-    setDisplayArtist(true)
+    setArtistAndCategory(currCategory)
+    setDisplayArtistAndCategory(true)
     setDisplayTitles(false)
+
+}
+
+const handleCategoryClick = (category) => {
+    const currCategoryCollection = []
+    console.log("CLICKED CATEGORy ",category)
+    for(let i = 0; i < artList.length; i++){
+        let curr = artList[i]
+        if(curr.category.length === 1 && curr.category === category){
+            currCategoryCollection.push(curr)
+        }
+        else if(curr.category.length > 1){
+            for(const cat of curr.category){
+                if(cat === category){
+                    currCategoryCollection.push(curr) 
+                }
+            }
+        }
+    }
+    setCategory(currCategoryCollection)
+    console.log("^^^",currCategoryCollection)
 }
 
 //test function with onclick 
 // const boxRef = useRef(null);
 const killMe = () => {
-    console.log(artist)
+    console.log(artistAndCategory)
 }
 
 
@@ -149,12 +174,13 @@ const killMe = () => {
         {displayTitles && 
         <div>
         <h1>Works of art from {currentPlace}</h1>
-        <Boxes titles={titles} handleBoxClick={handleBoxClick}/>
+        <Titles titles={titles} handleTitleClick={handleTitleClick}/>
         </div>
         }
-        {displayArtist && 
-        <h1>{artist}</h1>
+        {displayArtistAndCategory && 
+        <Category artistAndCategory={artistAndCategory} handleCategoryClick={handleCategoryClick}/>
         }
+        {/* <Type category={category} /> */}
         </div>
     </>
   )

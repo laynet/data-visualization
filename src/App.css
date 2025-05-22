@@ -8,6 +8,14 @@
   color: greenyellow;
 }
 
+.category-box {
+  width: 100px;
+  height: 100px;
+  background-color: greenyellow;
+  border: 5px solid blue;
+  color: orange;
+}
+
 
 /* #root {
   max-width: 1280px;
