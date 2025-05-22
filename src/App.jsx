@@ -19,6 +19,8 @@ function App() {
   const [titles, setTitles] = useState([])
   const [currentPlace, setCurrentPlace] = useState('')
   const [displayTitles, setDisplayTitles] = useState(false)
+  const [displayArtist, setDisplayArtist] = useState(false)
+  const [artist, setArtist] = useState('')
 //initial api call and process data
   useEffect(() => {
     const getArtList = async () => {
@@ -34,7 +36,9 @@ function App() {
             placeOfOrigin: item.place_of_origin,
             imageId: item.image_id,
             title: item.title,
-            thumbnail: item.thumbnail
+            thumbnail: item.thumbnail,
+            artist: item.artist_title,
+            description: item.description
         }))       
         setArtList(processData)
         // console.log(processData)
@@ -66,15 +70,7 @@ function App() {
   }, [artList])
   
 //handling the data when place is picked from dropdown
-const container = useRef();
-const tl = useRef();
-useGSAP(() => {
-    if(displayTitles){
-        // gsap.to("title-box", {x: 600, duration: 10});
-        tl.current = gsap.timeline().to("title-box", {x: 600, duration: 10})
-    }
-    
-  }, [displayTitles])
+
   const handlePlace = (place) => {
     console.log("clicked :", place)
     // console.log(artList)
@@ -89,15 +85,25 @@ useGSAP(() => {
     setDisplayTitles(true)   
 }
 
+const handleBoxClick = (title) => {
+
+    const currArtist = []
+    for(let i = 0; i < artList.length; i++){
+        let whatever = artList[i]
+        if(whatever.title === title){
+            currArtist.push(whatever.artist)
+        }
+    }
+    setArtist(currArtist[0])
+    setDisplayArtist(true)
+    setDisplayTitles(false)
+}
+
 //test function with onclick 
 // const boxRef = useRef(null);
-// const killMe = () => {
-//     console.log(currentPlace)
-//     gsap.to(boxRef.current, {
-//         x: 600,
-//         duration: 3,
-//     });
-// }
+const killMe = () => {
+    console.log(artist)
+}
 
 
 
@@ -136,13 +142,18 @@ useGSAP(() => {
            <PlacesDropdown availablePlaces={availablePlaces} handlePlace={handlePlace}/>
         </div>
  
-        {/* <button onClick={killMe}>
+        <button onClick={killMe}>
           KILL ME
-        </button> */}
+        </button>
         {/* <pre>{JSON.stringify(artList[0], null, 2)}</pre> */}
-        <h1>{currentPlace}</h1>
         {displayTitles && 
-        <Boxes titles={titles} />
+        <div>
+        <h1>Works of art from {currentPlace}</h1>
+        <Boxes titles={titles} handleBoxClick={handleBoxClick}/>
+        </div>
+        }
+        {displayArtist && 
+        <h1>{artist}</h1>
         }
         </div>
     </>

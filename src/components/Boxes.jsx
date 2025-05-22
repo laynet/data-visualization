@@ -3,13 +3,11 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(useGSAP);
-const Boxes = ({titles}) => {
+const Boxes = ({titles, handleBoxClick}) => {
     
   const container = useRef(null);
   const itemsRef = useRef([])
-  const handleBoxClick = () => {
-    console.log("TO DO CLICK")
-}
+
 
 useGSAP(() => {
     const items = gsap.utils.toArray(itemsRef.current);
@@ -24,7 +22,7 @@ useGSAP(() => {
     return (
           <div ref={container}>
             {titles.map((title, index) => (
-                <div  className='title-box' key={index} onClick={handleBoxClick} ref={(el) => (itemsRef.current[index] = el)}>{title}</div>
+                <div  className='title-box' key={index} onClick={() => handleBoxClick(title)} ref={(el) => (itemsRef.current[index] = el)}>{title}</div>
             ))}
           </div>
     );
