@@ -1,5 +1,15 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-#root {
+/* import 'bootstrap/dist/css/bootstrap.min.css'; */
+
+.title-box {
+  width: 100px;
+  height: 100px;
+  background-color: orange;
+  border: 5px solid hotpink;
+  color: greenyellow;
+}
+
+
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -40,4 +50,4 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 .read-the-docs {
   color: #888;
-}
+} */

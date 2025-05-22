@@ -1,19 +1,25 @@
-import { useState, useEffect } from 'react'
-// import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { Doughnut } from 'react-chartjs-2'
+import { useState, useEffect, useRef } from 'react'
+import  gsap  from "gsap";
+import { useGSAP } from "@gsap/react";
 
 import './App.css'
+
 import axios from 'axios'
 
 import PlacesDropdown from './components/PlacesDropdown'
+import Boxes from './components/Boxes';
+import WorkingAnimationOnClick from './components/WorkingAnimationOnClick';
+
+gsap.registerPlugin(useGSAP);
 
 function App() {
-//   const [count, setCount] = useState(0)
   const [pageNumber, setPageNumber] = useState(1)
   const [artList, setArtList] = useState([])
   const [availablePlaces, setAvailablePlaces] = useState([])
-//   const [placeOfOrigin, setPlaceOfOrigin] = useState([])
+  const [titles, setTitles] = useState([])
+  const [currentPlace, setCurrentPlace] = useState('')
+  const [displayTitles, setDisplayTitles] = useState(false)
+//initial api call and process data
   useEffect(() => {
     const getArtList = async () => {
       try {
@@ -25,28 +31,21 @@ function App() {
             id: item.id,
             type: item.artwork_type_title,
             category: [...item.category_titles],
-            placeOfOrigin: item.place_of_origin
-        }))
-        
+            placeOfOrigin: item.place_of_origin,
+            imageId: item.image_id,
+            title: item.title,
+            thumbnail: item.thumbnail
+        }))       
         setArtList(processData)
-        
-    
-        // const { data } = await axios.get(`https://api.artic.edu/api/v1/artworks/search?q={placeOfOrigin}?page=${pageNumber}&limit=100`)
-        // const { data } = await axios.get(`https://api.artic.edu/api/v1/artworks/search?&query[term][place_of_origin]=${placeOfOrigin}?page=${pageNumber}&limit=100`)
-        // const { data } = await axios.get(`https://api.artic.edu/api/v1/artworks/36417`)
-        // setArtList(data.data)
-        // console.log("%%%%%%%",data.data.place_of_origin)
-        // console.log("!!!",response)
-        // setArtList(data)
-        // console.log("!!!",data)
+        // console.log(processData)
       } catch (error) {
         console.log(error)
       }
-
     }
-    getArtList()
-    
+    getArtList()   
   }, [pageNumber])
+
+//   formatting the data to populate the drop down that picks the place of origin
   useEffect(() => {
     const populatePlacesDropdown = (artList) => {
         let set = new Set()
@@ -66,7 +65,67 @@ function App() {
     populatePlacesDropdown(artList)
   }, [artList])
   
+//handling the data when place is picked from dropdown
+const container = useRef();
+const tl = useRef();
+useGSAP(() => {
+    if(displayTitles){
+        // gsap.to("title-box", {x: 600, duration: 10});
+        tl.current = gsap.timeline().to("title-box", {x: 600, duration: 10})
+    }
+    
+  }, [displayTitles])
+  const handlePlace = (place) => {
+    console.log("clicked :", place)
+    // console.log(artList)
+    const titleList = []
+    for(let i = 0; i < artList.length; i++){
+        if(artList[i].placeOfOrigin === place){
+            titleList.push(artList[i].title)
+        }
+    }
+    setCurrentPlace(place)
+    setTitles(titleList)
+    setDisplayTitles(true)   
+}
 
+//test function with onclick 
+// const boxRef = useRef(null);
+// const killMe = () => {
+//     console.log(currentPlace)
+//     gsap.to(boxRef.current, {
+//         x: 600,
+//         duration: 3,
+//     });
+// }
+
+
+
+
+//GSAP FUCKERY
+// const container = useRef();
+    
+// const tl = useRef();
+
+//   useGSAP(() => {
+//     tl.current = gsap
+//       .timeline()
+//       .to(".box", {
+//         rotate: 360
+//       })
+//       .to(".circle", {
+//         x: 100
+//       });
+//   }, { scope: container });
+
+
+// useGSAP(() => {
+//     gsap.to(boxRef.current, {
+//         x: 600,
+//         duration: 3,
+//     }
+// )
+// })
 
 
   return (
@@ -74,14 +133,18 @@ function App() {
 
       <div className="card">
         <div>
-           <PlacesDropdown availablePlaces={availablePlaces} />
+           <PlacesDropdown availablePlaces={availablePlaces} handlePlace={handlePlace}/>
         </div>
+ 
         {/* <button onClick={killMe}>
-          count is {count}
+          KILL ME
         </button> */}
         {/* <pre>{JSON.stringify(artList[0], null, 2)}</pre> */}
+        <h1>{currentPlace}</h1>
+        {displayTitles && 
+        <Boxes titles={titles} />
+        }
         </div>
-      {/* <Doughnut data={place}/> */}
     </>
   )
 }

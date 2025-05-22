@@ -3,3 +3,94 @@ https://github.com/andrewdoak/aic-api-react/blob/main/src/App.jsx
 https://github.com/eli099/Art-Institute-of-Chicago/blob/main/src/components/artworks/ArtIndex.js
 
 https://formversuscontent.com/posts/api-axios-react-art-institute-chicago
+
+
+other api calls
+// const { data } = await axios.get(`https://api.artic.edu/api/v1/artworks/search?q={placeOfOrigin}?page=${pageNumber}&limit=100`)
+        // const { data } = await axios.get(`https://api.artic.edu/api/v1/artworks/search?&query[term][place_of_origin]=${placeOfOrigin}?page=${pageNumber}&limit=100`)
+        // const { data } = await axios.get(`https://api.artic.edu/api/v1/artworks/36417`)
+        // setArtList(data.data)
+        // console.log("%%%%%%%",data.data.place_of_origin)
+        // console.log("!!!",response)
+        // setArtList(data)
+        // console.log("!!!",data)
+
+gsap example
+//   useGSAP(() => {
+//     // gsap code here...
+//     gsap.to(".el", {rotation: 180}); // <-- automatically reverted
+  
+//   }, { scope: container }) // <-- scope for selector text (optional)
+
+
+https://differ.blog/p/easy-react-animation-with-gsap-e79dd5
+
+https://www.youtube.com/watch?v=v2IIPTEr5m8
+
+storing an array of refs
+https://mattclaffey.medium.com/adding-react-refs-to-an-array-of-items-96e9a12ab40c
+
+
+USEREF
+useRef is like a box where you can store something for later use. A number, an object, anything you want. updating value of useRef does not trigger rerender
+https://codewithnico.com/what-is-useref-for-when-should-i-use-it/
+
+useRef is used when you want to track a value that's unique to a component instance but you don't want React to necessarily be notified when it updates.
+
+The main reason to use it would be to keep track of a DOM element or to keep track of the previous props for comparisons sake.
+
+These weren't necessary when we used class components because you could assign values to the instance of the class and React wouldn't track them, but in functions we can't use instance variables, hence Refs.
+
+One of the downsides of React.useState() is that updating a state value results in the component re-rendering and that can sometimes be undesirable.
+
+GSAP Context
+https://medium.com/@hello.kweku/gsap-context-a-react-developers-guide-to-smoother-animations-4135680fe523
+example of using container as scope in gsapconst container = useRef();
+
+let ctx = gsap.context(() => {
+  gsap.to(".box", {...})
+  gsap.from(".circle", {...});
+
+}, container); // <- scope
+
+...
+
+<div ref=container> // <- scope
+  <div className="box">
+  </div>
+  <div className="circle">
+  </div>
+</div> 
+  <div className="box"></div>// <- out of scope
+
+   a Context is NOT meant to be a way of controlling animations, this is what Timelines are for. Context should be thought of as a way of reverting/killing groups of animations and defining scope for selectors.
+
+GSAP useGSAP() HOOK
+https://medium.com/@hello.kweku/simplifying-react-animations-with-usegsap-automatic-cleanup-and-beyond-354edfec31dc
+useGSAP is a replacement for useEffect or useLayouteffect.
+It automatically reverts animations upon component unmount, ensuring tidy GSAP animation management.
+export default function Home() {
+ const container = useRef();
+
+ useGSAP(() => {
+   gsap.to(".box", { x: 360 }); //<-- This will automatically revert
+  }
+ );
+
+ return (
+  <main className="main" ref={container}>
+   <div className="box">Box 1</div>
+  </main>
+ );
+}
+
+CONFIG OBJECT
+We also have the option of passing a second property. We may use this option to config a dependency, scope or revert on update:
+dependency - we can trigger our animation whenever our depencency changes.
+scope - defines a container as a scope
+
+
+https://gsap.com/community/forums/topic/40146-toggling-an-animation-of-items-in-and-out-with-usegsap-and-state-in-a-react-component/
+
+
+https://gsap.com/community/forums/topic/24853-using-gsaputilstoarray-in-react/

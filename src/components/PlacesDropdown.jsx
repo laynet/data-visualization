@@ -1,12 +1,9 @@
 import React from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
 
-const PlacesDropdown = ({availablePlaces}) => {
+const PlacesDropdown = ({availablePlaces, handlePlace}) => {
 
-    const handlePlace = (place) => {
-        console.log("clicked :", place)
-      
-    }
+    
     
   return (
 
