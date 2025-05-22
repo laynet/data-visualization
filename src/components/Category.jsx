@@ -20,7 +20,7 @@ const Category = ({artistAndCategory, handleCategoryClick}) => {
     <div>
     <h1 >Artist: {artistAndCategory.currArtist}</h1>
     <div ref={container}>
-      <h2>Category: </h2>
+      <h2>Choose a Category: </h2>
     {artistAndCategory.category.map((category, index) => (
         <p className="category-box" key={index} onClick={() => handleCategoryClick(category)} ref={(el) => (itemsRef.current[index] = el)}>{category}</p>
     ))}
@@ -30,3 +30,4 @@ const Category = ({artistAndCategory, handleCategoryClick}) => {
 }
 
 export default Category
+

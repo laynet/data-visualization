@@ -13,6 +13,22 @@
   height: 100px;
   background-color: greenyellow;
   border: 5px solid blue;
+  color: lightsalmon;
+}
+
+.type-box {
+  width: 100px;
+  height: 100px;
+  background-color: hotpink;
+  border: 5px solid yellow;
+  color: blue;
+}
+
+.artist-box {
+  width: 100px;
+  height: 100px;
+  background-color: lawngreen;
+  border: 5px solid palevioletred;
   color: orange;
 }
 

@@ -11,6 +11,7 @@ import Titles from './components/Titles';
 import WorkingAnimationOnClick from './components/WorkingAnimationOnClick';
 import Category from './components/Category';
 import Type from './components/Type';
+import Artist from './components/Artist';
 
 gsap.registerPlugin(useGSAP);
 
@@ -24,6 +25,9 @@ function App() {
   const [displayArtistAndCategory, setDisplayArtistAndCategory] = useState(false)
   const [artistAndCategory, setArtistAndCategory] = useState({})
   const [category, setCategory] = useState({})
+  const [displayType, setDisplayType] = useState(false)
+  const [type, setType] = useState([])
+  const [displayArtist, setDisplayArtist] = useState(false)
 //initial api call and process data
   useEffect(() => {
     const getArtList = async () => {
@@ -110,25 +114,47 @@ const handleCategoryClick = (category) => {
     for(let i = 0; i < artList.length; i++){
         let curr = artList[i]
         if(curr.category.length === 1 && curr.category === category){
-            currCategoryCollection.push(curr)
+            currCategoryCollection.push(curr.type)
         }
         else if(curr.category.length > 1){
             for(const cat of curr.category){
                 if(cat === category){
-                    currCategoryCollection.push(curr) 
+                    currCategoryCollection.push(curr.type) 
                 }
             }
         }
     }
     setCategory(currCategoryCollection)
-    console.log("^^^",currCategoryCollection)
+    setDisplayType(true)
+    setDisplayArtistAndCategory(false)
 }
+
+const handleTypeClick = (type) => {
+    console.log("handleTypeClick ", type)
+    const currType = []
+    for(let i = 0; i < artList.length; i++){
+        let curr = artList[i]
+        if(curr.type === type){
+            console.log(curr)
+            currType.push(curr.artist)
+        }
+    }
+    setType(currType)
+    setDisplayArtist(true)
+    setDisplayType(false)
+    console.log("CURRTYPE ",currType)
+  }
+
+  const handleArtistClick = (artist) => {
+    console.log(artist)
+  }
 
 //test function with onclick 
 // const boxRef = useRef(null);
-const killMe = () => {
-    console.log(artistAndCategory)
-}
+// const killMe = () => {
+//     console.log(artistAndCategory)
+// }
+
 
 
 
@@ -167,9 +193,9 @@ const killMe = () => {
            <PlacesDropdown availablePlaces={availablePlaces} handlePlace={handlePlace}/>
         </div>
  
-        <button onClick={killMe}>
+        {/* <button onClick={killMe}>
           KILL ME
-        </button>
+        </button> */}
         {/* <pre>{JSON.stringify(artList[0], null, 2)}</pre> */}
         {displayTitles && 
         <div>
@@ -180,7 +206,12 @@ const killMe = () => {
         {displayArtistAndCategory && 
         <Category artistAndCategory={artistAndCategory} handleCategoryClick={handleCategoryClick}/>
         }
-        {/* <Type category={category} /> */}
+        {displayType &&
+        <Type type={category} handleTypeClick={handleTypeClick}/>
+}
+{displayArtist && 
+<Artist artist={type} handleArtistClick={handleArtistClick}/>
+}
         </div>
     </>
   )

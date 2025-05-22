@@ -4,11 +4,12 @@ import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(useGSAP);
 
-const Type = ({type, handleTypeClick}) => {
+const Artist = ({artist, handleArtistClick}) => {
   const container = useRef(null);
   const itemsRef = useRef([])
 
-  
+ 
+
   useGSAP(() => {
     const items = gsap.utils.toArray(itemsRef.current);
     gsap.to(items, {
@@ -17,15 +18,16 @@ const Type = ({type, handleTypeClick}) => {
         rotation: 360,
       });
 }, {revertOnUpdate: true} )
-
+    console.log(artist)
   return (
     <div ref={container}>
-      <h2>Choose a Type: </h2>
-    {type.map((type, index) => (
-        <p className="type-box" key={index} onClick={() => handleTypeClick(type)} ref={(el) => (itemsRef.current[index] = el)}>{type}</p>
+      <h2>Artists: </h2>
+    {artist.map((artist, index) => (
+        <p className="artist-box" key={index} onClick={() => handleArtistClick(artist)} ref={(el) => (itemsRef.current[index] = el)}>{artist}</p>
     ))}
     </div>
+    
   )
 }
 
-export default Type
+export default Artist
