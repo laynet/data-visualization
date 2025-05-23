@@ -20,7 +20,7 @@ function App() {
   const [artList, setArtList] = useState([])
   const [availablePlaces, setAvailablePlaces] = useState([])
   const [titles, setTitles] = useState([])
-  const [currentPlace, setCurrentPlace] = useState('')
+  const [clickedPlace, setClickedPlace] = useState('')
   const [displayTitles, setDisplayTitles] = useState(false)
   const [displayArtistAndCategory, setDisplayArtistAndCategory] = useState(false)
   const [artistAndCategory, setArtistAndCategory] = useState({})
@@ -48,7 +48,7 @@ function App() {
             description: item.description
         }))       
         setArtList(processData)
-        // console.log(processData)
+        console.log(processData)
       } catch (error) {
         console.log(error)
       }
@@ -62,32 +62,24 @@ function App() {
         let set = new Set()
         for(let i = 0; i < artList.length; i++){
             let place = artList[i].placeOfOrigin
-            if(place) set.add(place)
-            else set.add("NOWHERE")
-            //if i need to attach an id to the places this is the code, but i think i can get the data by searching for the place
-            // let placeId = artList[i].id
-            // if(place)set.add({place: place, id: placeId})
-            // else set.add({place: 'No place available', id: placeId})
+            set.add(place)
         }
         let places = Array.from(set)
-        // console.log(places)
         setAvailablePlaces(places)
       }
     populatePlacesDropdown(artList)
   }, [artList])
   
 //handling the data when place is picked from dropdown
-
-  const handlePlace = (place) => {
+  const handleClickedPlace = (place) => {
     console.log("clicked :", place)
-    // console.log(artList)
     const titleList = []
     for(let i = 0; i < artList.length; i++){
         if(artList[i].placeOfOrigin === place){
             titleList.push(artList[i].title)
         }
     }
-    setCurrentPlace(place)
+    setClickedPlace(place)
     setTitles(titleList)
     setDisplayTitles(true)   
 }
@@ -125,6 +117,7 @@ const handleCategoryClick = (category) => {
         }
     }
     setCategory(currCategoryCollection)
+    console.log("Cat collection ", currCategoryCollection)
     setDisplayType(true)
     setDisplayArtistAndCategory(false)
 }
@@ -190,7 +183,7 @@ const handleTypeClick = (type) => {
 
       <div className="card">
         <div>
-           <PlacesDropdown availablePlaces={availablePlaces} handlePlace={handlePlace}/>
+           <PlacesDropdown availablePlaces={availablePlaces} handleClickedPlace={handleClickedPlace}/>
         </div>
  
         {/* <button onClick={killMe}>
@@ -199,7 +192,7 @@ const handleTypeClick = (type) => {
         {/* <pre>{JSON.stringify(artList[0], null, 2)}</pre> */}
         {displayTitles && 
         <div>
-        <h1>Works of art from {currentPlace}</h1>
+        <h1>Works of art from {clickedPlace}</h1>
         <Titles titles={titles} handleTitleClick={handleTitleClick}/>
         </div>
         }

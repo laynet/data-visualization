@@ -18,7 +18,7 @@ const Category = ({artistAndCategory, handleCategoryClick}) => {
     console.log(artistAndCategory)
   return (
     <div>
-    <h1 >Artist: {artistAndCategory.currArtist}</h1>
+
     <div ref={container}>
       <h2>Choose a Category: </h2>
     {artistAndCategory.category.map((category, index) => (

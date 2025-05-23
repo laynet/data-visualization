@@ -1,9 +1,9 @@
 import {useRef} from 'react'
 import  gsap  from "gsap";
-const WorkingAnimationOnClick = ({currentPlace}) => {
+const WorkingAnimationOnClick = ({clickedPlace}) => {
     const boxRef = useRef(null);
 const clickBitch = () => {
-    console.log(currentPlace)
+    console.log(clickedPlace)
     gsap.to(boxRef.current, {
         x: 600,
         duration: 3,
@@ -15,7 +15,7 @@ const clickBitch = () => {
           CLICK BITCH
         </button>
     <div>WorkingAnimationOnClick</div>
-    <div className="title-box" ref={boxRef} >{currentPlace}</div>
+    <div className="title-box" ref={boxRef} >{clickedPlace}</div>
     </>
   )
 }

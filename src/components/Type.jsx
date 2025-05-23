@@ -5,6 +5,7 @@ import { useGSAP } from '@gsap/react';
 gsap.registerPlugin(useGSAP);
 
 const Type = ({type, handleTypeClick}) => {
+  console.log("TYPE ", type)
   const container = useRef(null);
   const itemsRef = useRef([])
 
@@ -22,9 +23,9 @@ const Type = ({type, handleTypeClick}) => {
   return (
     <div ref={container}>
       <h2>Choose a Type: </h2>
-    {type.map((type, index) => (
+    {type.length > 0 ? type.map((type, index) => (
         <p className="type-box" key={index} onClick={() => handleTypeClick(type)} ref={(el) => (itemsRef.current[index] = el)}>{type}</p>
-    ))}
+    )) : <p>No type, reload and start over</p>}
     </div>
   )
 }
